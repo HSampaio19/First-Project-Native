@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { Container, Form, Input, SubmitButton } from './styles';
-import Icon from "react-native-vector-icons/MaterialIcons"
+import { Container, Form, Input} from './styles';
+import { SubmitButton } from '../../components/SubmitButton';
 
 export default class Main extends Component{
 
@@ -29,11 +29,7 @@ export default class Main extends Component{
         returnKeyType='Send'
         onSubmitEditing={this.handleAddUser}
       />
-      <SubmitButton
-      title='+'
-      onPress={this.handleAddUser}>
-        <Icon name='add' size={20} color="#FFF"/>
-      </SubmitButton>
+      <SubmitButton title={"+"} onPress={this.handleAddUser} icon={"add"}/>
     </Form>
   </Container>
   )}
