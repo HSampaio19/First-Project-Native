@@ -10,31 +10,35 @@ const Stack = createNativeStackNavigator();
 
 export default function Routes(){
   return(
+  <>
     <NavigationContainer>
-    <Stack.Navigator
-    screenOptions={{
-      headerTitleAlign: 'center',
-      headerStyle:{
-        backgroundColor: '#7159c1',
-      },
-       headerTintColor: '#FFF',
-       headerTintStyle: 'bold'
+      <Stack.Navigator
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerStyle:{
+          backgroundColor: '#7159c1',
+        },
+        headerTintColor: '#FFF',
+        headerTintStyle: 'bold'
 
-    }}>
-    <Stack.Screen
-        name="Principal"
-        component={Main}
-        options={{title: 'Main'}}
-      />
+      }}>
       <Stack.Screen
-        name="Usuarios"
-        component={User}
-        options={{title: 'User'}}
-      />
-    </Stack.Navigator>
-  </NavigationContainer>
+          name="Principal"
+          component={Main}
+          options={{title: 'Main'}}
+        />
+        <Stack.Screen
+          name="Usuarios"
+          component={User}
+          options={{title: 'User'}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  </>
   )
 }
+
+
 
 
 

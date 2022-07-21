@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import { Container, Form, Input} from './styles';
 import { SubmitButton } from '../../components/SubmitButton';
+import { Keyboard } from 'react-native';
+
+import Api from '../../services/api';
 
 export default class Main extends Component{
 
@@ -10,8 +13,31 @@ export default class Main extends Component{
     users:[],
   }
 
-  handleAddUser = () => {
-    console.tron.log(this.state.newUser)
+  handleAddUser = async() => {
+    const {users, newUser} = this.state
+
+    const response = await Api.get(`/users/${newUser}`)
+
+    const data ={
+      name: response.data.name,
+      login: response.data.login,
+      bio: response.data.bio,
+      avatar: response.data.avatar_url
+    }
+
+    this.setState({
+      users: [...users, data],
+      newUser: ''
+    })
+    Keyboard.dismiss()
+
+    return (
+      users.map(user => {
+        return(
+          <ListUser>{user.email}</ListUser>
+        )
+      })
+    )
   }
 
 
@@ -29,7 +55,7 @@ export default class Main extends Component{
         returnKeyType='Send'
         onSubmitEditing={this.handleAddUser}
       />
-      <SubmitButton title={"+"} onPress={this.handleAddUser} icon={"add"}/>
+      <SubmitButton onPress={this.handleAddUser} icon={"add"}/>
     </Form>
   </Container>
   )}
