@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import { Container, Form, Input} from './styles';
-import { SubmitButton } from '../../components/SubmitButton';
-import { Keyboard } from 'react-native';
+import { Container, Form, Input, List, User, Avatar, Name, Bio} from './styles';
+import { StyledButton } from '../../components/StyledButton';
+import { Keyboard, ActivityIndicator } from 'react-native';
 
 import Api from '../../services/api';
 
@@ -11,10 +11,14 @@ export default class Main extends Component{
   state={
     newUser: '',
     users:[],
+    loading: false
   }
 
   handleAddUser = async() => {
-    const {users, newUser} = this.state
+
+    const {users, newUser, loading} = this.state
+
+    this.setState({loading: true})
 
     const response = await Api.get(`/users/${newUser}`)
 
@@ -31,18 +35,13 @@ export default class Main extends Component{
     })
     Keyboard.dismiss()
 
-    return (
-      users.map(user => {
-        return(
-          <ListUser>{user.email}</ListUser>
-        )
-      })
-    )
+    this.setState({loading: false})
+
   }
 
 
   render(){
-    const {newUser, users} = this.state
+    const {newUser, users, loading} = this.state
     return(
     <Container>
     <Form>
@@ -55,8 +54,26 @@ export default class Main extends Component{
         returnKeyType='Send'
         onSubmitEditing={this.handleAddUser}
       />
-      <SubmitButton onPress={this.handleAddUser} icon={"add"}/>
+      <StyledButton onPress={this.handleAddUser} icon={"add"} loading={loading}/>
     </Form>
+      <List
+        data={users}
+        keyExtractor={user => user.login}
+        renderItem={({item})=>(
+          <User>
+            <Avatar source={{uri: item.avatar}}/>
+            <Name>{item.name}</Name>
+            <Bio>{item.bio}</Bio>
+            <StyledButton
+              title={"  Ver Perfil  "}
+              OnPress={()=> ok}
+              styleProps={{
+                alignSelf: "stretch",
+              }}
+            />
+          </User>
+        )}
+      />
   </Container>
   )}
 }
