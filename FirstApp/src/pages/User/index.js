@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import  {Container,Header, Avatar, Name, Bio,Stars, Starred, OwnerAvatar,Title, Info, Author} from './styles'
 import Api from '../../services/api';
 
-// import { Container } from './styles';
-
 
 export default class User extends Component{
 
@@ -24,6 +22,8 @@ export default class User extends Component{
 
     const {stars} = this.state
     const {user} = this.props.route.params
+
+
     return (
       <Container>
         <Header>
@@ -34,7 +34,7 @@ export default class User extends Component{
         <Stars
           data={stars}
           KeyExtractor={String(stars.id)}
-          renderItem={({item})=>{
+          renderItem={({item})=>(
             <Starred>
               <OwnerAvatar source={{uri: item.owner.avatar_url}}/>
               <Info>
@@ -42,7 +42,7 @@ export default class User extends Component{
                 <Author>{item.owner.login}</Author>
               </Info>
             </Starred>
-          }}
+          )}
         />
       </Container>
   )

@@ -34,7 +34,7 @@ text-align: center;
 
 `;
 export const Stars = styled.FlatList.attrs({
-  showsVerticalScrollIndicator: false
+  showsVerticalScrollIndicator: false,
 })`
   margin-top:20px;
 
