@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 
 import { Container, Form, Input, List, User, Avatar, Name, Bio} from './styles';
 import { StyledButton } from '../../components/StyledButton';
-import { Keyboard, ActivityIndicator } from 'react-native';
+import { Keyboard} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Api from '../../services/api';
+import PropTypes from 'prop-types'
 
 export default class Main extends Component{
+
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }).isRequired
+  }
 
   state={
     newUser: '',
@@ -14,7 +22,23 @@ export default class Main extends Component{
     loading: false
   }
 
-  handleAddUser = async() => {
+async componentDidMount(){
+  const users = await AsyncStorage.getItem('users')
+
+  if(users){
+    this.setState({users: JSON.parse(users)})
+  }
+}
+
+componentDidUpdate(prevProps, prevState){
+  const {users} = this.state
+
+  if(prevState.users != users){
+    AsyncStorage.setItem('users', JSON.stringify(users))
+  }
+}
+
+handleAddUser = async() => {
 
     const {users, newUser, loading} = this.state
 
@@ -37,7 +61,14 @@ export default class Main extends Component{
 
     this.setState({loading: false})
 
-  }
+}
+
+handleNavigate = (user) =>{
+
+  const {navigation} = this.props
+
+  navigation.navigate('Usuario', {user})
+}
 
 
   render(){
@@ -66,7 +97,7 @@ export default class Main extends Component{
             <Bio>{item.bio}</Bio>
             <StyledButton
               title={"  Ver Perfil  "}
-              OnPress={()=> ok}
+              onPress={() => this.handleNavigate(item)}
               styleProps={{
                 alignSelf: "stretch",
               }}

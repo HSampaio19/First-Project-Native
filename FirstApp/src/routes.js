@@ -9,6 +9,7 @@ import User from "./pages/User"
 const Stack = createNativeStackNavigator();
 
 export default function Routes(){
+
   return(
   <>
     <NavigationContainer>
@@ -25,12 +26,10 @@ export default function Routes(){
       <Stack.Screen
           name="Principal"
           component={Main}
-          options={{title: 'Main'}}
         />
         <Stack.Screen
-          name="Usuarios"
+          name="Usuario"
           component={User}
-          options={{title: 'User'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
